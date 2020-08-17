@@ -5,8 +5,8 @@ import shutil
 
 from datetime import datetime
 
-from confighandler import ConfigHandler
 from jinja2 import Template
+from config import CONFIG
 
 app = {}
 
@@ -50,18 +50,8 @@ class StaticHandler:
 
 
 class Library:
-    CONF_SETTINGS = [
-        {'name': 'lib_type', 'section': 'SETTINGS', 'key': 'lib_type'},
-        {'name': 'create_base_folder', 'section': 'SETTINGS',
-            'key': 'create_base_folder'},
-        {'name': 'files_to_parse', 'section': 'SETTINGS', 'key': 'files_to_parse'},
-        {'name': 'files_to_delete', 'section': 'SETTINGS', 'key': 'files_to_delete'},
-        {'name': 'static_files', 'section': 'SETTINGS', 'key': 'static_files'},
-    ]
-
     def __init__(self, base_dir, lib_name):
         self.app = None
-        self.conf = None
         self.lib_name = lib_name
         self.base_dir = base_dir
         self.static_handler = StaticHandler(self.base_dir)
@@ -85,10 +75,6 @@ class Library:
             raise Exception('Could not find parse.conf file.', path)
 
         return path
-
-    def get_conf(self):
-        return ConfigHandler().get_configs(
-            self.get_conf_path(), self.CONF_SETTINGS)
 
     def create_folder(self, *args):
         target = os.path.join(*args)
@@ -145,8 +131,6 @@ class Library:
         # check if lib exists
         if not self.exists():
             raise Exception('Could not find lib.', self.lib_name)
-
-        self.conf = self.get_conf()
 
         # rendering
         ## license - get
