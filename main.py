@@ -6,7 +6,7 @@ import shutil
 from datetime import datetime
 
 from jinja2 import Template
-from config import CONFIG
+from confighandler import ConfigHandler
 
 app = {}
 
@@ -57,6 +57,7 @@ class Library:
         self.static_handler = StaticHandler(self.base_dir)
         self.template_handler = TemplateHandler()
         self.force_overwrite = False
+        self.config = ConfigHandler(self.get_conf_path())
 
     def exists(self):
         for file_name in os.listdir(self.base_dir):
@@ -69,10 +70,10 @@ class Library:
                             self.lib_name)
 
     def get_conf_path(self):
-        path = os.path.join(self.get_lib_path(), 'parse.conf')
+        path = os.path.join(self.get_lib_path(), 'parse_settings.json')
 
         if not os.path.isfile(path):
-            raise Exception('Could not find parse.conf file.', path)
+            raise Exception('Could not find parse_settings.json file.', path)
 
         return path
 
@@ -149,7 +150,7 @@ class Library:
         self.copy_lib_to_target(target_folder, source)
 
         # generate base folder
-        if self.conf['create_base_folder'].upper() == 'TRUE':
+        if self.config.get('create_base_folder'):
             name_available = input('Available Name for {}*: '.format(self.app['name']))
             if name_available== '':
                 print('Available name is empty. Please try again.')
@@ -158,12 +159,12 @@ class Library:
             self.create_folder(target_folder, self.app['name'], *name_available.split('.'))
 
         # generate content for dynamic files
-        for file_name in self.conf['files_to_parse'].split(','):
+        for file_name in self.config.get('files_to_parse'):
             self.parse_file(
                 target_folder, self.app['name'], file_name.strip())
 
         # create static files
-        for obj in self.conf['static_files'].split(','):
+        for obj in self.config.get('static_files'):
             instructions = obj.strip().split('>')
 
             #  get static file content
@@ -172,7 +173,7 @@ class Library:
                 target_folder, self.app['name'], instructions[1])
 
         # remove files
-        for file_name in self.conf['files_to_delete'].split(','):
+        for file_name in self.config.get('files_to_delete'):
             self.remove_file(
                 target_folder, self.app['name'], file_name.strip())
 

@@ -1,0 +1,11 @@
+*.pyc
+venv
+.vscode/
+__pycache__
+settings.cfg
+.eggs
+dist
+build
+*.egg-info
+*.zip
+settings.json
