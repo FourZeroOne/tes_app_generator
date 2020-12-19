@@ -1,4 +1,2 @@
-flask
-flask_cors
-sentry-sdk==0.10.2
+sentry-sdk
 python_confighandler>=0.2.1
