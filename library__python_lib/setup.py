@@ -28,5 +28,5 @@ setup(
     url='{{ app.url }}',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=requirements,
-    python_requires='>=3.8'
+    python_requires='>=3.9'
 )
