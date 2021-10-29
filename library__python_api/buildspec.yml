@@ -1,0 +1,28 @@
+version: 0.2
+env:
+  variables:
+    LAMBDA_NAME: "{{ app.name }}"
+    BUCKET_NAME: "global-aws-codebuild"
+    BRANCH: "master"
+
+phases:
+    install:
+        runtime-versions:
+            python: 3.9
+    pre_build:
+        commands:
+            - curr_working_dir=`pwd`
+            - export PIP_CONFIG_FILE=$curr_working_dir/pip.conf
+            - BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | sed 's/refs\/heads\///')
+    build:
+        commands:
+            - python setup.py ldist --include-version False
+    post_build:
+        commands:
+            - aws s3 cp dist/$LAMBDA_NAME.zip s3://$BUCKET_NAME/$LAMBDA_NAME/dist.zip
+            - aws lambda update-function-code --function-name "$LAMBDA_NAME"_"$BRANCH" --s3-bucket $BUCKET_NAME --s3-key $LAMBDA_NAME/dist.zip --publish
+
+#artifacts:
+#    files:
+#        - '*.zip'
+#    base-directory: dist
