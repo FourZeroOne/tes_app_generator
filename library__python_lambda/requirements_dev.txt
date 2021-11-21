@@ -2,3 +2,8 @@
 pylint
 flask
 flask_cors
+pre-commit
+pytest
+pytest-cov
+black
+pyhamcrest

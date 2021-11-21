@@ -1,7 +1,7 @@
 {
     "lib_type":  "python",
     "create_base_folder": true,
-    "files_to_parse": ["setup.py", "README.md", "LICENSE"],
+    "files_to_parse": ["setup.py", "README.md", "LICENSE", ".pre-commit-config.yaml"],
     "files_to_delete": ["parse_settings.json"],
     "static_files": ["pip/fzo.conf>pip.conf", "gitignore/python>.gitignore"]
 }

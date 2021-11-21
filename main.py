@@ -151,12 +151,12 @@ class Library:
 
         # generate base folder
         if self.config.get('create_base_folder'):
-            name_available = input('Available Name for {}*: '.format(self.app['name']))
-            if name_available== '':
+            self.app["name_available"] = input('Available Name for {}*: '.format(self.app['name']))
+            if self.app["name_available"] == "":
                 print('Available name is empty. Please try again.')
                 sys.exit('Available name is empty. Please try again.')
 
-            self.create_folder(target_folder, self.app['name'], *name_available.split('.'))
+            self.create_folder(target_folder, self.app['name'], *self.app["name_available"].split('.'))
 
         # generate content for dynamic files
         for file_name in self.config.get('files_to_parse'):
