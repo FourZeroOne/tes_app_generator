@@ -1,4 +1,4 @@
-files: tes_aws/
+files: {{ app.name_available }}/
 repos:
     - repo: meta
       hooks:

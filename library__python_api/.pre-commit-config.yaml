@@ -1,4 +1,4 @@
-files: tes_aws/
+files: src/
 repos:
     - repo: meta
       hooks:
