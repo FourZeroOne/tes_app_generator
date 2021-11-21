@@ -14,7 +14,7 @@ repos:
       hooks:
           - id: black
             language_version: python3.9
-            args: [--line-length=79, ./src, ./tests]
+            args: [--line-length=79, --check, ./src, ./tests]
 
     - repo: https://gitlab.com/pycqa/flake8
       rev: 3.9.2
