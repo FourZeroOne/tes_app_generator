@@ -19,7 +19,7 @@ phases:
             - echo branch $BRANCH
             - |
               if [ "${BRANCH}" = "master" ] ; then
-                pip install s3pypi
+                pip install s3pypi==0.11.1
               fi
     build:
         commands:
